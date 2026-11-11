@@ -41,3 +41,6 @@
 }
 #footer .footer_social_links a:hover i { opacity: .8; }
 #footer .footer_social_links .icon-svg svg { width: 18px; height: 18px; display: block; }
+
+/* No menu entries in site.yml: no hamburger button on phones (it would open an empty menu). */
+.no_menu .slicknav_btn, .no_menu .slicknav_menu .slicknav_nav { display: none !important; }
