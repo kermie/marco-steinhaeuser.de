@@ -10,9 +10,9 @@
 {% endif %}{% if canonical %}	<link rel="canonical" href="{{ canonical }}">
 {% endif %}	<link rel="alternate" type="application/rss+xml" title="{{ site.title }} &raquo; Feed" href="/feed/">
 {% for css in stylesheets %}	<link rel="stylesheet" href="{{ css }}">
-{% endfor %}	<link rel="icon" href="/assets/penguin.png" sizes="32x32">
-	<link rel="icon" href="/assets/penguin.png" sizes="192x192">
-	<link rel="apple-touch-icon" href="/assets/penguin.png">
+{% endfor %}	<link rel="icon" href="/assets/favicon-32.png?v={{ version }}" sizes="32x32">
+	<link rel="icon" href="/assets/favicon-192.png?v={{ version }}" sizes="192x192">
+	<link rel="apple-touch-icon" href="/assets/favicon-180.png?v={{ version }}">
 {% if og %}	<meta property="og:type" content="article">
 	<meta property="og:title" content="{{ og.title }}">
 	<meta property="og:url" content="{{ canonical }}">

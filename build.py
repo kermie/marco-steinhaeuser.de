@@ -730,6 +730,9 @@ class Site:
         self.write_old_addresses()
 
         self.copy_tree(ASSETS, "assets")
+        # Browsers ask for /favicon.ico on their own, whatever the page says.
+        shutil.copy2(ASSETS / "favicon.ico", PUBLIC / "favicon.ico")
+        self.written.add(PUBLIC / "favicon.ico")
         if (CONTENT / "media").exists():
             self.copy_tree(CONTENT / "media", "media", only_media=True)
         self.check_links()
