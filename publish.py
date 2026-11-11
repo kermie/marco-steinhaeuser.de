@@ -161,8 +161,9 @@ class Nextcloud:
             raise
 
     def where_it_breaks(self):
-        """For a wrong url: the deepest folder of it that exists and what's in
-        there. (GitHub hides the url itself in the log, as it's a secret.)"""
+        """For a wrong url: how much of it exists. Only counts, no names: the
+        log of a public repository is public, and GitHub only hides a secret
+        when it appears in full."""
         parts = urllib.parse.urlsplit(self.base)
         segments = self.base_path.strip("/").split("/")
         start = segments.index("files") + 1 if "files" in segments else len(segments) - 1
@@ -176,16 +177,11 @@ class Nextcloud:
                     tree = etree.fromstring(resp.read())
             except urllib.error.HTTPError:
                 continue
-            hrefs = (urllib.parse.unquote(urllib.parse.urlsplit(item.findtext(f"{DAV}href", "")).path).rstrip("/")
-                     for item in tree.iter(f"{DAV}response")
-                     if item.find(f".//{DAV}resourcetype/{DAV}collection") is not None)
-            names = sorted(h.rsplit("/", 1)[-1] for h in hrefs if h != path.rstrip("/"))
-            shown = "/".join(segments[start + 1:end]) or "(top level)"
-            return (f'Folder "{shown}" exists, but has no "{segments[end]}" '
-                    f'(names are case-sensitive). Folders in it: {", ".join(names) or "none"}')
-        return (f'Even the top level of user "{segments[start]}" is not reachable -- '
-                f'the name after /files/ must be the Nextcloud user id (Files settings -> WebDAV shows it) '
-                f'and match the Nextcloud user setting.')
+            found = end - start - 1
+            return (f"The first {found} folder(s) after /files/<user>/ exist, folder no. {found + 1} doesn't "
+                    f"(names are case-sensitive).")
+        return ("Even the top level of the Nextcloud user is not reachable -- the name after /files/ "
+                "must be the Nextcloud user id (Files settings -> WebDAV shows it) and match the Nextcloud user setting.")
 
     def listing(self):
         """{relative path: etag} of every file below the folder. Walks one
@@ -335,13 +331,9 @@ class Hosting:
         try:
             self.ftp.cwd(self.root)
         except ftplib.error_perm:
-            start = self.ftp.pwd()
-            try:
-                names = ", ".join(sorted(n.rsplit("/", 1)[-1] for n in self.ftp.nlst(start))) or "nothing"
-            except ftplib.Error:
-                names = "(can't list)"
-            raise Stop(f"FTP folder not found -- check the FTP remote dir. After login the hosting starts "
-                       f'in "{start}", which contains: {names}')
+            # No listing of what's there: the log of a public repository is public.
+            raise Stop("FTP folder not found -- check the FTP remote dir. It is counted from where the "
+                       "FTP login starts; an FTP client shows that folder right after logging in.")
 
     def path(self, relpath):
         return f"{self.root.rstrip('/')}/{relpath}"
