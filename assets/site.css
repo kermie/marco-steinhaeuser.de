@@ -31,3 +31,13 @@
   .hero_portrait img { width: 130px; height: 130px; border-width: 4px; }
   .has_portrait section#blog { padding-top: 75px !important; }
 }
+
+/* Footer: round social media icons (colours come from the theme settings). */
+#footer .footer_social_links { margin: 10px 0 15px; }
+#footer .footer_social_links a { display: inline-block; margin: 0 6px 8px 0; text-decoration: none; }
+#footer .footer_social_links a i {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 50%; font-size: 17px; vertical-align: middle; transition: opacity .15s;
+}
+#footer .footer_social_links a:hover i { opacity: .8; }
+#footer .footer_social_links .icon-svg svg { width: 18px; height: 18px; display: block; }
