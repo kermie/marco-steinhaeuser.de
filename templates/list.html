@@ -13,13 +13,14 @@
 			</div>
 		</div>
 		<div class="overlay"></div>
-	</div>
+{% if site.banner.portrait %}		<div class="hero_portrait"><div class="container"><img src="/assets/{{ site.banner.portrait }}?v={{ version }}" width="200" height="200" alt="{{ site.banner.title }}"></div></div>
+{% endif %}	</div>
 {% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block heading %}{{ heading | safe }}{% endblock %}
 
 {% block main %}
-	<section id="blog" class="blog-lists blog-nosidebar-1">
+	<section id="blog" class="blog-lists blog-nosidebar-1{% if is_home and site.banner.portrait %} has_hero_portrait{% endif %}">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-sm-12 content-wrapper bizberg_blog_content">

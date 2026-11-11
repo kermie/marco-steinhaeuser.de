@@ -520,7 +520,7 @@ class Site:
             "theme-config.js", "bizberg/assets/js/custom.js", "site.js")]
         scripts += [f"/assets/{name}?v={self.version}" for name in context.pop("extra_scripts", [])]
         page = self.env.get_template(template).render(
-            site=self.config, stylesheets=stylesheets, scripts=scripts, root="../" * depth,
+            site=self.config, stylesheets=stylesheets, scripts=scripts, version=self.version, root="../" * depth,
             year=datetime.date.today().year,
             canonical=self.absolute(url) if self.site_url and template != "404.html" else None, **context)
         if template != "404.html":
