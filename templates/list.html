@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block banner %}{% if is_home %}
+	<div class="breadcrumb-wrapper homepage_banner" style="background-color:rgba(20,20,20,.8); background-image: url({{ root }}assets/banner.jpg); background-repeat:repeat; background-position:center center; background-size:cover; background-attachment:scroll">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="section-title">
+						<h1 class="banner_title">{{ site.banner.title }}</h1>
+						<p class="banner_subtitle">{{ site.banner.subtitle }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="overlay"></div>
+	</div>
+{% else %}{{ super() }}{% endif %}{% endblock %}
+
+{% block heading %}{{ heading | safe }}{% endblock %}
+
+{% block main %}
+	<section id="blog" class="blog-lists blog-nosidebar-1">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-sm-12 content-wrapper bizberg_blog_content">
+					<div class="row" id="content">
+{% for post in posts %}<div id="post-{{ loop.index }}" class="col-md-4 col-sm-6 col-xs-12 blog-listing no-sidebars post type-post status-publish format-standard{% if post.thumb %} has-post-thumbnail{% endif %} hentry">
+	<div class="blog-post blog-large">
+		<article>
+			<header class="entry-header">
+{% if post.thumb %}				<a href="{{ post.url }}" class="featured_image_link">
+					<div class="entry-thumbnail">
+						<img width="{{ post.thumb.width }}" height="{{ post.thumb.height }}" src="{{ post.thumb.src }}" class="img-responsive wp-post-image" alt="{{ post.title }}" decoding="async"{% if loop.index > 3 %} loading="lazy"{% endif %}>
+					</div>
+				</a>
+{% endif %}				<div class="entry-date">
+					<a href="{{ post.month_url }}">{{ post.date_text }}</a>
+				</div>
+				<h4 class="entry-title">
+					<a href="{{ post.url }}">{{ post.title }}</a>
+				</h4>
+			</header>
+			<div class="entry-content">
+				<p>{{ post.excerpt }}</p>
+			</div>
+			<div class="entry-meta" style="display:block;">
+				<span class="bizberg_read_time"><i class="far fa-clock"></i> {{ post.read_time }}</span>
+			</div>
+		</article>
+	</div>
+</div>{% endfor %}
+</div>{% if pagination %}<div class="result-paging-wrapper">
+	<nav class="navigation pagination" aria-label="Posts pagination">
+		<h2 class="screen-reader-text">Posts pagination</h2>
+		<div class="nav-links">{% if pagination.prev %}<a class="prev page-numbers" href="{{ pagination.prev }}">&laquo;</a>
+{% endif %}{% for item in pagination.links %}{% if item.dots %}<span class="page-numbers dots">&hellip;</span>
+{% elif item.current %}<span aria-current="page" class="page-numbers current">{{ item.number }}</span>
+{% else %}<a class="page-numbers" href="{{ item.url }}">{{ item.number }}</a>
+{% endif %}{% endfor %}{% if pagination.next %}<a class="next page-numbers" href="{{ pagination.next }}">&raquo;</a>{% endif %}</div>
+	</nav></div>{% endif %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

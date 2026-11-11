@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<section id="blog" class="blog-section bizberg_default_page">
+		<div class="container">
+			<div class="row">
+				<div class="two-tone-layout">
+					<div class="col-md-8 col-sm-12 col-xs-12 content-wrapper bizberg_blog_content" id="content">
+<article class="detail-content single_page page">
+	<div class="entry-content">
+		<form role="search" method="get" class="search-page-form" action="/search/">
+			<input type="search" name="s" id="search-q" placeholder="Search ..." aria-label="Search">
+			<input type="submit" value="Search">
+		</form>
+		<p id="search-status" role="status"></p>
+		<ol id="search-results" class="search-results"></ol>
+		<noscript><p>The search needs JavaScript. All posts are listed on the <a href="/">blog</a> and by <a href="/tag/oxid/">tag</a>.</p></noscript>
+	</div>
+</article>
+					</div>
+{% include "sidebar.html" %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

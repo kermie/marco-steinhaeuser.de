@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<section id="blog" class="blog-section blog-detail-page">
+		<div class="container">
+			<div class="row">
+				<div class="two-tone-layout">
+						<div class="col-md-8 col-sm-12 col-xs-12 content-wrapper bizberg_blog_content" id="content">
+							<div class="detail-content single_page">
+{% if post.featured %}	<div class="detail_image_wrapper"><img width="{{ post.featured.width }}" height="{{ post.featured.height }}" src="{{ post.featured.src }}" class="bizberg_featured_image wp-post-image" alt="{{ post.title }}" title="{{ post.title }}" decoding="async" fetchpriority="high"></div>
+{% endif %}	<div class="bizberg_cocntent_wrapper">
+			<div class="bizberg_post_date">
+				<a href="{{ post.month_url }}">{{ post.date_text }}</a>
+			</div>
+		<h3 class="blog-title">{{ post.title }}</h3>
+
+{{ post.html | safe }}
+
+		<div class="bizberg_user_comment_wrapper">
+				<div class="bizberg_detail_comment_count">
+					<i class="fas fa-comments"></i>
+					{{ post.comments | length }}
+				</div>
+		</div>
+	</div>
+{% if post.tags %}
+	<div class="tag-cloud-wrapper clearfix mb-40">
+			<div class="tag-cloud-heading">Tags : </div>
+			<div class="tagcloud tags clearfix mt-5">{% for tag in post.tags %}<a href="{{ tag.url }}" rel="tag">{{ tag.name }}</a>{% endfor %}</div>
+		</div>
+{% endif %}</div>
+{% if previous or next %}	<nav class="navigation post-navigation" aria-label="Posts">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links">{% if previous %}<div class="nav-previous"><a href="{{ previous.url }}" rel="prev">{{ previous.title }}</a></div>{% endif %}{% if next %}<div class="nav-next"><a href="{{ next.url }}" rel="next">{{ next.title }}</a></div>{% endif %}</div>
+	</nav>
+{% endif %}<div id="comments" class="comments-area">
+{% if post.comments %}
+		<h2 class="comments-title">
+			{% if post.comments | length == 1 %}One thought{% else %}{{ post.comments | length }} thoughts{% endif %} on &ldquo;<span>{{ post.title }}</span>&rdquo;
+		</h2>
+		<ol class="comment-list">
+		<ul class="comment-item comment-holder">
+{% for comment in post.comments %}		<li id="comment-{{ comment.id }}">
+			<div class="comment-header" style="margin-left: 0;">
+				{% if comment.url %}<a href="{{ comment.url }}" class="font600 font16" target="_blank" rel="nofollow ugc noopener">{{ comment.author }}</a>{% else %}<a class="font600 font16">{{ comment.author }}</a>{% endif %}
+				<span class="comment-time">
+					<a href="#comment-{{ comment.id }}">{{ comment.date_text }}</a>
+				</span>
+			</div>
+			<div class="comment-content">
+				{{ comment.html | safe }}
+			</div>
+		</li>
+{% endfor %}		</ul>
+		</ol>
+{% endif %}
+		<p class="no-comments">Comments are closed.</p>
+</div>
+						</div>
+{% include "sidebar.html" %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

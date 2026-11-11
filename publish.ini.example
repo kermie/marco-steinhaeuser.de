@@ -1,0 +1,25 @@
+# Settings for publish.py when it runs on your own machine or server (on
+# GitHub the same settings are repository secrets, see DEPLOY.md). Copy to
+# publish.ini, fill in, then protect it:
+#     cp publish.ini.example publish.ini && chmod 600 publish.ini
+# publish.ini holds passwords -- never put it into git or into Nextcloud.
+
+[nextcloud]
+# WebDAV address of the website folder. In Nextcloud: Files -> "Files settings"
+# (bottom left) -> WebDAV shows the first part; append the folder name.
+url = https://cloud.marco-steinhaeuser.de/remote.php/dav/files/USERNAME/Website
+user = USERNAME
+# An app password, not the normal one: Personal settings -> Security ->
+# "Create new app password". Can be revoked there at any time.
+app_password =
+
+[ftp]
+host =
+user =
+password =
+# Folder on the hosting that the domain points to ("/" if it's the FTP root).
+remote_dir = /
+# FTP over TLS (FTPS). Only set to "no" if the hosting really can't do it --
+# plain FTP sends the password unencrypted.
+tls = yes
+port = 21

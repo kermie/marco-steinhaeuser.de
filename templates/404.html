@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<section id="blog" class="blog-section bizberg_default_page">
+		<div class="container">
+			<div class="row">
+				<div class="two-tone-layout">
+					<div class="col-md-8 col-sm-12 col-xs-12 content-wrapper bizberg_blog_content" id="content">
+<article class="detail-content single_page page">
+	<div class="entry-content">
+		<header class="entry-header">
+			<h3 class="blog-title">Nothing found here</h3>
+		</header>
+		<p>The page you were looking for doesn't exist (any more). Try the search, or start over on the <a href="/">blog</a>.</p>
+		<form role="search" method="get" class="search-page-form" action="/search/">
+			<input type="search" name="s" placeholder="Search ..." aria-label="Search">
+			<input type="submit" value="Search">
+		</form>
+	</div>
+</article>
+					</div>
+{% include "sidebar.html" %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

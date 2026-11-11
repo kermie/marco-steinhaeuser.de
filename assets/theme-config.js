@@ -1,0 +1,3 @@
+// Settings the Bizberg theme script (bizberg/assets/js/custom.js) expects.
+// WordPress printed them inline; a file keeps the pages free of inline scripts.
+var bizberg_object = {"admin_bar_status":"","slider_loop":"1","slider_speed":"3","autoplay_delay":"6","slider_grab_n_slider":"1","header_menu_color_hover":"#6ab43e","header_menu_color_hover_sticky":"#6ab43e","is_transparent_header":"false","primary_header_layout":"left","slide_in_animation":"1","sticky_header_status":"true","sticky_sidebar_margin_top_status":"110","sticky_sidebar_margin_bottom_status":"10","sticky_sidebar_status":"","rtl":""};

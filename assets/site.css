@@ -1,0 +1,18 @@
+/* Additions to the Bizberg theme for what WordPress did on the server. */
+
+/* Search page */
+.search-page-form { display: flex; gap: 8px; margin-bottom: 20px; }
+.search-page-form input[type="search"] { flex: 1; min-width: 0; padding: 8px 12px; border: 1px solid #ddd; }
+.search-page-form input[type="submit"] { padding: 8px 18px; border: 0; background: #6ab43e; color: #fff; }
+.search-results { list-style: none; padding: 0; }
+.search-results li { margin-bottom: 25px; }
+.search-results h4 { margin-bottom: 4px; }
+.search-results mark { background: #e4f3da; padding: 0; }
+
+/* Comments are closed: no form, just the note. */
+.comments-area .no-comments { margin-top: 20px; font-style: italic; }
+
+/* Embeds (SlideShare) shouldn't overflow on phones. */
+.detail-content iframe { max-width: 100%; }
+.detail-content img { max-width: 100%; height: auto; }
+.detail-content table { max-width: 100%; display: block; overflow-x: auto; }

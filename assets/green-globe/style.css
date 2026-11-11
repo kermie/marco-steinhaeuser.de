@@ -1,0 +1,202 @@
+/*
+Theme Name: Green Globe
+Template: bizberg
+Text Domain: green-globe
+Author: Bizberg Themes
+Author URI: https://bizbergthemes.com/
+Theme URI: https://bizbergthemes.com/downloads/green-globe/
+License: GNU General Public License v3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Description: Green Globe WordPress Theme is a modern Eco Nature WordPress Theme and Environmental WordPress Theme designed for NGOs, charities, and eco-focused organizations, making it a perfect NGO WordPress Theme, Nature WordPress Theme, Green Energy WordPress Theme, Ecology WordPress Theme, Nonprofit WordPress Theme, Eco Friendly WordPress Theme, and Environmental NGO Theme for creating professional environmental and sustainability websites. This free eco nature WordPress theme is considered one of the best environmental WordPress theme options for organizations looking for an Elementor eco WordPress theme with a clean and flexible design. Green Globe is a responsive NGO WordPress theme and free nonprofit WordPress theme suitable for environmental groups, wildlife projects, and nonprofit foundations. It is also an ideal sustainability WordPress theme, wildlife conservation WordPress theme, green business WordPress theme, environmental charity WordPress theme, and WordPress theme for nature organizations. Whether you are building an eco foundation WordPress theme website, climate change awareness WordPress theme project, renewable energy WordPress theme platform, or a WordPress theme for environmental campaigns, Green Globe delivers a professional and modern green WordPress theme experience with full Elementor support and SEO optimized performance.
+Tags: custom-logo,custom-menu,featured-images,threaded-comments,translation-ready,left-sidebar,right-sidebar,grid-layout,theme-options,blog,news,portfolio
+Version: 0.5
+Tested up to: 6.9
+Requires PHP: 5.6
+*/
+
+.navbar-default .navbar-nav > li > a {
+    letter-spacing: 0;
+}
+
+.blog-lists.blog-nosidebar-1 .blog-listing.no-sidebars .blog-post.blog-large .entry-header{
+    margin-top: 0 !important; 
+}
+
+.sub-title {
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+    color: #f94d1c;
+}
+
+.section-title .sub-title {
+    margin-bottom: 15px;
+}
+
+.section-title span.sub-title {
+    color: #0dceb5;
+}
+
+.section-title h2 {
+    margin-bottom: 20px;
+    color: #000;
+    font-weight: 700;
+    font-family: 'Poppins';
+}
+
+.features-item-two {
+    background-color: #fff;
+    -webkit-box-shadow: 0px 10px 60px 0px rgba(24, 28, 34, 0.07);
+    box-shadow: 0px 10px 60px 0px rgba(24, 28, 34, 0.07);
+    border-radius: 7px;
+    padding: 40px;
+    gap: 30px;
+    font-family: 'Poppins';
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.features-item-two span.number {
+    font-size: 24px;
+    color: #1a1a1a;
+    font-weight: 800;
+}
+
+.features-item-two .icon {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100px;
+    flex: 0 0 100px;
+    max-width: 100px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 50px;
+    background: #77bb4f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-two .features-item-two .icon {
+    color: #0dceb5;
+}
+
+.features-item-two .icon-btn {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 60px;
+    flex: 0 0 60px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    border: 1px solid rgba(24, 28, 34, 0.102);
+    font-size: 18px;
+    color: #77bb4f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-two .features-item-two .icon-btn {
+    color: #0dceb5;
+}
+
+.features-section {
+    padding: 80px 0;
+}
+
+.sub-title1{
+    font-weight: 500;
+    color: #6ab43e;
+    font-family: 'Poppins';
+}
+
+.features-item-two .text h3 {
+    font-family: 'Poppins';
+    font-weight: 600;
+    color: #000;
+    font-size: 22px;
+}
+
+/* Service Two */
+
+.features-section1{
+    background: #f1f1f136;
+    padding: 80px 0 50px;
+    margin-bottom: 40px;
+}
+
+.features-item {
+    padding: 35px 35px 25px;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 10px 60px 0px rgba(172, 172, 172, 0.1);
+    box-shadow: 0px 10px 60px 0px rgba(172, 172, 172, 0.1);
+    border: 1px solid transparent;
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.features-item:hover {
+    border-color: #6ab43e;
+}
+
+.features-item .icon {
+    margin-bottom: 10px;
+}
+
+.features-item .icon i {
+    font-size: 50px;
+    line-height: 1em;
+    color: #6ab43e;
+}
+
+.features-section1 h4.title {
+    font-family: 'Poppins';
+    color: #000;
+    font-weight: 600;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 21px;
+}
+
+@media (max-width: 500px){
+    .features-item-two{
+        flex-direction: column;
+    }
+    .features-item-two .text h3 {
+        text-align: center;
+    }
+}
+
+/** 
+* Givewp CSS
+*/
+
+.single-give_forms .give_forms{
+    padding-top: 0;
+}
+
+.detail-content.single_page.eb_page .give_error, 
+.detail-content.single_page.eb_page .give_success, 
+.detail-content.single_page.eb_page .give_warning {
+    padding: 1em 1.5em 1em 2em;
+}
+
+#give_donation_receipt th {
+    padding: 15px;
+}
+
+#give_donation_receipt td {
+    padding: 12px 20px;
+}
+
+form#give-email-access-form {
+    display: flex;
+    flex-direction: column;
+}
+
+form#give-email-access-form input#give-email {
+    width: 100%;
+}

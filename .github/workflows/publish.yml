@@ -1,0 +1,78 @@
+# Nextcloud -> build.py -> hosting, every 30 minutes. See DEPLOY.md.
+name: Publish website
+
+on:
+  schedule:
+    - cron: "7,37 * * * *"  # GitHub often starts scheduled runs a few minutes late
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "publish = normal run. dry-run = only show what would change."
+        type: choice
+        default: publish
+        options: [publish, dry-run, full-upload, allow-mass-delete]
+
+# One run at a time; a run that is due while another is busy waits.
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    # Scheduled runs only start once the repository variable PUBLISH_ENABLED
+    # is "true" -- the switch for going live, and to pause publishing.
+    if: github.event_name == 'workflow_dispatch' || vars.PUBLISH_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # The copy of the Nextcloud folder and the list of uploaded files from
+      # the last run, so only changes are downloaded and uploaded. If it's
+      # gone, the run just downloads and uploads everything once.
+      - name: Restore last state
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            content
+            .cache
+          key: state-none
+          restore-keys: state-
+
+      - name: Publish
+        env:
+          NEXTCLOUD_URL: ${{ secrets.NEXTCLOUD_URL }}
+          NEXTCLOUD_USER: ${{ secrets.NEXTCLOUD_USER }}
+          NEXTCLOUD_APP_PASSWORD: ${{ secrets.NEXTCLOUD_APP_PASSWORD }}
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+          FTP_PORT: ${{ vars.FTP_PORT }}
+          FTP_TLS: ${{ vars.FTP_TLS }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          case "$MODE" in
+            dry-run|full-upload|allow-mass-delete) python3 publish.py "--$MODE" ;;
+            *) python3 publish.py ;;
+          esac
+
+      # Saved even after a failed run, so an interrupted upload resumes.
+      - name: Save state
+        if: always() && hashFiles('.cache/nextcloud-etags.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            content
+            .cache
+          key: state-${{ hashFiles('.cache/nextcloud-etags.json', '.cache/uploaded-files.json') }}

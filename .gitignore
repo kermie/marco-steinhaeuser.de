@@ -1,0 +1,13 @@
+# Content lives in Nextcloud, not here (publish.py pulls it into content/).
+content/
+public/
+.cache/
+
+# WordPress export, mirror and uploads.
+archive/
+
+publish.ini
+publish.log
+.pylib/
+.claude/
+__pycache__/

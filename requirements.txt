@@ -1,0 +1,8 @@
+# build.py
+markdown>=3.6
+pyyaml>=6.0
+jinja2>=3.1
+beautifulsoup4>=4.12
+pillow>=9.0      # optional: smaller copies of big pictures
+# migrate.py (one-time WordPress conversion)
+markdownify>=0.13

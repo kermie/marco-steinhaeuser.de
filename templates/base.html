@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="{{ site.language }}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% if page_title %}{{ page_title }} &#8211; {% endif %}{{ site.title }}{% if page_number %} &#8211; Page {{ page_number }}{% endif %}{% if not page_title %} &#8211; {{ site.tagline }}{% endif %}</title>
+{% if description %}	<meta name="description" content="{{ description }}">
+{% endif %}{% if noindex %}	<meta name="robots" content="noindex">
+{% else %}	<meta name="robots" content="max-image-preview:large">
+{% endif %}{% if canonical %}	<link rel="canonical" href="{{ canonical }}">
+{% endif %}	<link rel="alternate" type="application/rss+xml" title="{{ site.title }} &raquo; Feed" href="/feed/">
+{% for css in stylesheets %}	<link rel="stylesheet" href="{{ css }}">
+{% endfor %}	<link rel="icon" href="/assets/penguin.png" sizes="32x32">
+	<link rel="icon" href="/assets/penguin.png" sizes="192x192">
+	<link rel="apple-touch-icon" href="/assets/penguin.png">
+{% if og %}	<meta property="og:type" content="article">
+	<meta property="og:title" content="{{ og.title }}">
+	<meta property="og:url" content="{{ canonical }}">
+{% if og.image %}	<meta property="og:image" content="{{ og.image }}">
+{% endif %}{% if description %}	<meta property="og:description" content="{{ description }}">
+{% endif %}{% endif %}</head>
+
+<body class="{{ body_class }} bizberg sidebar">
+
+<header id="masthead" class="primary_header_left">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+	<nav class="navbar navbar-default with-slicknav">
+		<div id="navbar" class="collapse navbar-collapse navbar-arrow">
+			<div class="container">
+				<div class="row">
+					<div class="bizberg_header_wrapper">
+						<a class="logo pull-left " href="/" target="_self">
+							<h3 class="header_site_title">{{ site.title }}</h3><p class="header_site_description">{{ site.tagline }}</p>
+						</a>
+						<ul id="responsive-menu" class="nav navbar-nav pull-right">
+{% for item in site.menu %}							<li class="menu-item parent_menu_bizberg {% if item.url == '/' %}menu-item-home{% endif %}"><a href="{{ item.url }}"><span class="eb_menu_title">{{ item.title }}</span></a></li>
+{% endfor %}							<li class="menu-item search_wrapper">
+								<div class="header-search">
+									<a href="#" class="search-icon" aria-label="Search"><i class="fa fa-search"></i></a>
+								</div>
+							</li>
+						</ul>
+						<div class="mobile_menu_wrapper">
+							<a href="#" class="mobile_search_icon" aria-label="Search"><i class="fa fa-search"></i></a>
+							<div id="slicknav-mobile" class="text-logo"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+
+{% block banner %}
+	<div class="breadcrumb-wrapper not-home">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="section-title">
+						<h1>{% block heading %}{{ page_title }}{% endblock %}</h1>
+						<ol class="breadcrumb">
+							<li class="item-home cyclone-blog-home"><a class="bread-link bread-home" href="/">Home</a></li>{% for crumb in breadcrumb %}{% if crumb.url %}<li><a href="{{ crumb.url }}">{{ crumb.title }}</a></li>{% else %}<li class="item-current"><span class="active bread-current">{{ crumb.title }}</span></li>{% endif %}{% endfor %}
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="overlay"></div>
+	</div>
+{% endblock %}
+
+{% block main %}{% endblock %}
+
+	<footer id="footer" class="footer-style" style="padding-top: 20px;">
+		<div class="container">
+			<ul class="inline-menu">
+{% for item in site.footer_menu %}				<li class="page_item"><a href="{{ item.url }}">{{ item.title }}</a></li>
+{% endfor %}			</ul>
+			<p class="copyright">
+				Copyright &copy;{{ year }} {{ site.copyright }}. All rights reserved. <span class="bizberg_copyright_inner">Designed by <a href="https://bizbergthemes.com/" target="_blank" rel="noopener">Bizberg Themes</a></span>
+			</p>
+		</div>
+	</footer>
+
+<div class="full-screen-search" style="display: none;">
+	<div class="search-box-wrap">
+		<div class="searchform" role="search">
+			<form role="search" method="get" id="search-form" class="search-form" action="/search/">
+				<label for="s">
+					<input placeholder="Search ..." type="text" value="" name="s" id="s" class="search-field">
+					<input class="search-submit" type="submit" id="searchsubmit" value="Search">
+				</label>
+			</form>
+			<a href="#" class="close" aria-label="Close"><i class="fas fa-times"></i></a>
+		</div>
+	</div>
+</div>
+
+<div id="back-to-top">
+	<a href="#" aria-label="Back to top"><i class="fa fa-angle-up"></i></a>
+</div>
+
+{% for js in scripts %}<script src="{{ js }}"></script>
+{% endfor %}</body>
+</html>
