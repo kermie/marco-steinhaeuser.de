@@ -107,7 +107,8 @@ def ignored(relpath):
 
 
 def load_config():
-    config = configparser.ConfigParser()
+    # No interpolation: "%" is normal in addresses (user@domain -> %40).
+    config = configparser.ConfigParser(interpolation=None)
     config.read(ROOT / "publish.ini", encoding="utf-8")
     for name, (section, key) in ENV_SETTINGS.items():
         if os.environ.get(name):
@@ -282,6 +283,18 @@ def upload_order(relpath):
     return (1 if relpath.endswith(".html") else 0, relpath)
 
 
+def tls_context():
+    """The usual certificate check, plus the intermediate certificates in
+    ca/. Some hosters' FTP servers send their certificate without the one
+    that links it to a trusted root (browsers fetch it themselves, Python
+    doesn't). They still have to chain up to a root the system trusts, and
+    the host name is still checked."""
+    context = ssl.create_default_context()
+    for pem in sorted((ROOT / "ca").glob("*.pem")):
+        context.load_verify_locations(cafile=str(pem))
+    return context
+
+
 class FTPS(ftplib.FTP_TLS):
     """FTP_TLS that reuses the control connection's TLS session for file
     transfers. Many hosters insist on that ("522 session reuse required"),
@@ -303,7 +316,7 @@ class Hosting:
     def connect(self):
         s = self.section
         if s.getboolean("tls", True):
-            self.ftp = FTPS(context=ssl.create_default_context(), timeout=60)
+            self.ftp = FTPS(context=tls_context(), timeout=60)
         else:
             self.ftp = ftplib.FTP(timeout=60)
         self.ftp.connect(s["host"], s.getint("port", 21))
