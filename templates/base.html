@@ -20,7 +20,7 @@
 {% endif %}{% if description %}	<meta property="og:description" content="{{ description }}">
 {% endif %}{% endif %}</head>
 
-<body class="{{ body_class }} bizberg sidebar">
+<body class="{{ body_class }} bizberg sidebar{% if site.banner.portrait %} has_portrait{% endif %}">
 
 <header id="masthead" class="primary_header_left">
 	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
@@ -66,7 +66,7 @@
 			</div>
 		</div>
 		<div class="overlay"></div>
-	</div>
+{% include "portrait.html" %}	</div>
 {% endblock %}
 
 {% block main %}{% endblock %}

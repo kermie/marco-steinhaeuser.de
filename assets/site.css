@@ -17,8 +17,8 @@
 .detail-content img { max-width: 100%; height: auto; }
 .detail-content table { max-width: 100%; display: block; overflow-x: auto; }
 
-/* Homepage: round portrait on the right, half over the banner, half over the posts. */
-.breadcrumb-wrapper.homepage_banner { position: relative; overflow: visible !important; }
+/* Round portrait on the right, half over the banner, half over the page (every page). */
+.breadcrumb-wrapper { position: relative; overflow: visible !important; }
 .hero_portrait { position: absolute; left: 0; right: 0; bottom: 0; height: 0; z-index: 5; }
 .hero_portrait .container { position: relative; height: 0; }
 .hero_portrait img {
@@ -26,8 +26,8 @@
   width: 200px; height: 200px; object-fit: cover; border-radius: 50%;
   border: 6px solid #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
 }
-section#blog.has_hero_portrait { padding-top: 110px !important; }
+.has_portrait section#blog { padding-top: 110px !important; }
 @media (max-width: 767px) {
   .hero_portrait img { width: 130px; height: 130px; border-width: 4px; }
-  section#blog.has_hero_portrait { padding-top: 75px !important; }
+  .has_portrait section#blog { padding-top: 75px !important; }
 }
