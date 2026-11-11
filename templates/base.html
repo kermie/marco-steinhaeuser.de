@@ -33,7 +33,7 @@
 							<h3 class="header_site_title">{{ site.title }}</h3><p class="header_site_description">{{ site.tagline }}</p>
 						</a>
 						<ul id="responsive-menu" class="nav navbar-nav pull-right">
-{% for item in site.menu %}							<li class="menu-item parent_menu_bizberg {% if item.url == '/' %}menu-item-home{% endif %}"><a href="{{ item.url }}"><span class="eb_menu_title">{{ item.title }}</span></a></li>
+{% for item in site.menu %}							<li class="menu-item parent_menu_bizberg {% if item.url == '/' %}menu-item-home{% endif %}"><a href="{{ item.url | safe_url }}"><span class="eb_menu_title">{{ item.title }}</span></a></li>
 {% endfor %}							<li class="menu-item search_wrapper">
 								<div class="header-search">
 									<a href="#" class="search-icon" aria-label="Search"><i class="fa fa-search"></i></a>
@@ -74,7 +74,7 @@
 	<footer id="footer" class="footer-style" style="padding-top: 20px;">
 		<div class="container">
 			<ul class="inline-menu">
-{% for item in site.footer_menu %}				<li class="page_item"><a href="{{ item.url }}">{{ item.title }}</a></li>
+{% for item in site.footer_menu %}				<li class="page_item"><a href="{{ item.url | safe_url }}">{{ item.title }}</a></li>
 {% endfor %}			</ul>
 			<p class="copyright">
 				Copyright &copy;{{ year }} {{ site.copyright }}. All rights reserved. <span class="bizberg_copyright_inner">Designed by <a href="https://bizbergthemes.com/" target="_blank" rel="noopener">Bizberg Themes</a></span>

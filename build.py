@@ -262,6 +262,7 @@ class Site:
         self.md = markdown.Markdown(extensions=["extra", "sane_lists"], output_format="html")
         self.env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES), autoescape=True,
                                       trim_blocks=False, lstrip_blocks=False)
+        self.env.filters["safe_url"] = safe_url
         self.written = set()
         self.media = {}          # "/media/x.jpg" -> source path
         self.links = []          # (page url, href) of every internal link, checked at the end
@@ -342,7 +343,8 @@ class Site:
             tag.decompose()
         for tag in soup.find_all(True):
             for attr in list(tag.attrs):
-                if attr.lower().startswith("on") or attr.lower() in ("style", "srcdoc", "formaction"):
+                # data-*: Bootstrap 3 (theme) builds HTML from some of them.
+                if attr.lower().startswith(("on", "data-")) or attr.lower() in ("style", "srcdoc", "formaction"):
                     del tag[attr]
             for attr in URL_ATTRS & set(tag.attrs):
                 value = str(tag[attr]).strip()
@@ -723,6 +725,16 @@ class Site:
                 path.unlink()
             elif path.is_dir() and not any(path.iterdir()):
                 path.rmdir()
+
+
+def safe_url(value):
+    """Links from site.yml: web addresses and paths only (no javascript:)."""
+    value = str(value or "").strip()
+    scheme = urllib.parse.urlsplit(value).scheme.lower()
+    if scheme and scheme not in ("http", "https", "mailto", "tel"):
+        warn("content/site.yml", f'link "{value[:60]}" ignored')
+        return "#"
+    return value
 
 
 def relative_to_absolute(fragment, site_url):

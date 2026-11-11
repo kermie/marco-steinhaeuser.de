@@ -200,6 +200,8 @@ class Nextcloud:
                 if not href.startswith(self.base_path):
                     continue
                 relpath = href[len(self.base_path):].strip("/")
+                if ".." in relpath.split("/") or "\\" in relpath:
+                    raise Stop(f"Nextcloud sent a strange file name ({relpath!r}) -- stopped")
                 if relpath == folder.strip("/") or ignored(relpath):
                     continue
                 if item.find(f".//{DAV}resourcetype/{DAV}collection") is not None:

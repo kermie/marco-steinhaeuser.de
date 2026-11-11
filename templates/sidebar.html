@@ -2,7 +2,7 @@
 <div id="sidebar" class="sidebar-wrapper ">
 {% if site.sidebar.links %}	<section class="widget widget_links"><h2 class="widget-title">Links</h2>
 	<ul class="xoxo blogroll">
-{% for link in site.sidebar.links %}<li><a href="{{ link.url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a></li>
+{% for link in site.sidebar.links %}<li><a href="{{ link.url | safe_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a></li>
 {% endfor %}	</ul>
 </section>
 {% endif %}{% if tag_cloud %}<section class="widget widget_tag_cloud"><h2 class="widget-title">Tag Cloud</h2><div class="tagcloud">{% for tag in tag_cloud %}<a href="{{ tag.url }}" class="tag-cloud-link" style="font-size: {{ tag.size }}pt;" aria-label="{{ tag.name }} ({{ tag.count }} items)">{{ tag.name }}</a>
