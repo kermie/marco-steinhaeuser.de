@@ -581,8 +581,7 @@ class Site:
                 + f"<description>{html.escape(post['excerpt'] if post['has_excerpt'] else post['excerpt'][:400])}</description>"
                 f"<content:encoded><![CDATA[{body.replace(']]>', ']]]]><![CDATA[>')}]]></content:encoded>"
                 "</item>")
-        self.write_text("feed.xml",
-                        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        feed = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                         '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" '
                         'xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
                         f"<title>{html.escape(self.config['title'])}</title>"
@@ -590,7 +589,11 @@ class Site:
                         f"<link>{self.absolute('/')}</link>"
                         f"<description>{html.escape(str(self.config.get('tagline', '')))}</description>"
                         f"<language>{self.config.get('language', 'en-US')}</language>"
-                        + "\n".join(items) + "</channel></rss>\n")
+                + "\n".join(items) + "</channel></rss>\n")
+        self.write_text("feed.xml", feed)
+        # nginx ignores .htaccess: /feed/ itself must hold the feed (feed
+        # readers go by the content, not the file name).
+        self.write_text("feed/index.html", feed)
 
     def write_search_engine_files(self):
         urls = ["/"] + [p["url"] for p in self.posts] + [p["url"] for p in self.pages] + \
@@ -606,6 +609,32 @@ class Site:
         out += [f"- [{p['title']}]({self.absolute(p['url'])}) ({p['date_text']})"
                 + (f": {p['excerpt']}" if p["has_excerpt"] else "") for p in self.posts]
         self.write_text("llms.txt", "\n".join(out) + "\n")
+
+    def write_redirect(self, path, target):
+        """A tiny page that forwards to target: works on any web server
+        (the host runs nginx, which ignores .htaccess)."""
+        depth = path.count("/")
+        rel = "../" * depth + target.lstrip("/")
+        url = html.escape(rel)
+        self.write_text(path, f'<!doctype html><meta charset="utf-8"><title>Moved</title>'
+                        f'<meta name="robots" content="noindex">'
+                        f'<link rel="canonical" href="{html.escape(self.absolute(target))}">'
+                        f'<meta http-equiv="refresh" content="0; url={url}">'
+                        f'<p>This page has moved: <a href="{url}">{url}</a></p>\n')
+
+    def write_old_addresses(self):
+        """/slug, /slug.html (the addresses before 2020) and other old
+        WordPress addresses -> where they are now."""
+        taken = {output_file(p["url"]) for p in self.pages} | {PUBLIC / "feed", PUBLIC / "search", PUBLIC / "tag",
+                                                                PUBLIC / "category", PUBLIC / "page", PUBLIC / "media"}
+        for post in self.posts:
+            for path in (f"{post['slug']}.html", f"{post['slug']}/index.html"):
+                if PUBLIC / path not in self.written and (PUBLIC / path).parent not in taken \
+                        and output_file("/" + path) not in taken:
+                    self.write_redirect(path, post["url"])
+        legal = "/legal-information-and-contact-html/"
+        for path in ("legal-information-and-contact.html", "legal-information-and-contact/index.html", "about/index.html"):
+            self.write_redirect(path, legal)
 
     def slug_redirects(self):
         """/slug, /slug/ and /slug.html (the addresses before 2020) -> the
@@ -698,6 +727,7 @@ class Site:
         self.write_search_index()
         frames = " ".join(f"https://{h}" for h in sorted(IFRAME_HOSTS))
         self.write_text(".htaccess", HTACCESS.replace("FRAMES", frames) + self.slug_redirects())
+        self.write_old_addresses()
 
         self.copy_tree(ASSETS, "assets")
         if (CONTENT / "media").exists():
