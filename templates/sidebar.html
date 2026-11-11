@@ -5,8 +5,6 @@
 {% for link in site.sidebar.links %}<li><a href="{{ link.url | safe_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a></li>
 {% endfor %}	</ul>
 </section>
-{% endif %}{% if tag_cloud %}<section class="widget widget_tag_cloud"><h2 class="widget-title">Tag Cloud</h2><div class="tagcloud">{% for tag in tag_cloud %}<a href="{{ tag.url }}" class="tag-cloud-link" style="font-size: {{ tag.size }}pt;" aria-label="{{ tag.name }} ({{ tag.count }} items)">{{ tag.name }}</a>
-{% endfor %}</div>
-</section>{% endif %}{% if site.sidebar.disclaimer %}<section class="widget widget_text"><h2 class="widget-title">Disclaimer</h2>			<div class="textwidget">{{ site.sidebar.disclaimer }}</div>
+{% endif %}{% if site.sidebar.disclaimer %}<section class="widget widget_text"><h2 class="widget-title">Disclaimer</h2>			<div class="textwidget">{{ site.sidebar.disclaimer }}</div>
 		</section>{% endif %}</div>
 							</div>

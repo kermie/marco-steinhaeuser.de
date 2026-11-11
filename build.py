@@ -521,7 +521,7 @@ class Site:
         scripts += [f"/assets/{name}?v={self.version}" for name in context.pop("extra_scripts", [])]
         page = self.env.get_template(template).render(
             site=self.config, stylesheets=stylesheets, scripts=scripts, root="../" * depth,
-            year=datetime.date.today().year, tag_cloud=self.tag_cloud,
+            year=datetime.date.today().year,
             canonical=self.absolute(url) if self.site_url and template != "404.html" else None, **context)
         if template != "404.html":
             page = relative_links(page, depth)
@@ -535,20 +535,6 @@ class Site:
         target.write_text(text, encoding="utf-8")
         self.written.add(target)
 
-    def make_tag_cloud(self):
-        """WordPress' default tag cloud: the N most-used tags, sorted by
-        name, sized 8-22pt on a logarithmic scale."""
-        count = int(self.config["sidebar"].get("tag_cloud") or 0)
-        # Ties: the older tag first, as WordPress did (by its internal id).
-        tags = sorted(self.tags.values(), key=lambda t: (-len(t["posts"]), min(p["date"] for p in t["posts"])))[:count]
-        if not tags:
-            return []
-        scale = {id(t): round(math.log10(len(t["posts"]) + 1) * 100) for t in tags}
-        low, high = min(scale.values()), max(scale.values())
-        spread = max(high - low, 1)
-        return [{"name": t["name"], "url": t["url"], "count": len(t["posts"]),
-                 "size": f"{8 + (scale[id(t)] - low) * 14 / spread:g}"}
-                for t in sorted(tags, key=lambda t: t["name"].lower())]
 
     def pagination(self, base, page, pages):
         """WordPress' paginate_links(): first and last page, current +-1, dots between."""
@@ -672,7 +658,6 @@ class Site:
     def build(self):
         PUBLIC.mkdir(exist_ok=True)
         self.load()
-        self.tag_cloud = self.make_tag_cloud()
 
         self.write_list("/", self.posts, None, "", [], "home blog", is_home=True)
         for i, post in enumerate(self.posts):
