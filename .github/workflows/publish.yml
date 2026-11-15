@@ -41,7 +41,7 @@ jobs:
       # the last run, so only changes are downloaded and uploaded. If it's
       # gone, the run just downloads and uploads everything once.
       - name: Restore last state
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: |
             content
@@ -70,7 +70,7 @@ jobs:
       # Saved even after a failed run, so an interrupted upload resumes.
       - name: Save state
         if: always() && hashFiles('.cache/nextcloud-etags.json') != ''
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: |
             content
